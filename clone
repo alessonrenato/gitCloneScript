@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#GITCLONE Script
+#(C) 2016, Alesson Renato, <alessonrenato@gmail.com>
+
+#Usage:
+#just type $clone 'gitUSER' 'repository'
+#change 'def' for your gitUSER
+
+def='alessonrenato'
+git='.git'
+b='-b'
+
+
+#testa argumentos
+if [ $# -lt 1 ];
+then
+echo "error! type clone 'gitID' 'repository' (without .git)"
+exit 1
+
+#1 argumento tenta achar repositorio em meu git
+elif [ $# -lt 2 ];
+then
+#apaga pasta se ela existe
+rm -rf $1
+#clona, cria develop e features e atualiza
+git clone git@github.com:$def/$1$git && cd $1 && git fetch origin && git co $b develop && git pull origin develop && git co $b features    
+
+#2 argumentos clona de outro gitUser
+elif [ $# -lt 3 ];
+then
+#apaga pasta se ela existe
+rm -rf $2
+#clona, cria develop e features e atualiza
+git clone git@github.com:$1/$2$git && cd $2 && git fetch origin && git co $b develop && git pull origin develop && git co $b features 
+else
+echo 'error, many arguments'
+fi
+
